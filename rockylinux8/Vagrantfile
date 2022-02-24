@@ -6,8 +6,8 @@ Vagrant.configure("2") do |config|
 # box 來源
   config.vm.box = "rockylinux.box"
 # box 驗證方式
-  config.ssh.username = "root"
-  config.ssh.password = "P@ssw0rd"  
+  config.ssh.username = "<username>"
+  config.ssh.password = "<password>"  
 
 # 設定 VM 資源及使用 link clone 節省 host 空間  
   config.vm.provider "virtualbox" do |v|
