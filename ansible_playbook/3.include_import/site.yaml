@@ -1,0 +1,26 @@
+---
+- name: include and import
+  hosts: a_server
+
+       
+  tasks:
+   - name: print msg
+     debug:
+       msg: "hello, this is include task"
+
+   - name: include task
+     include_tasks: user_creation1.yml
+     vars:
+       user1: user1
+       user2: user2  
+
+
+   - name: print msg
+     debug:
+       msg: "hello, this is import task"
+       
+   - name: import task
+     import_tasks: user_creation2.yml
+     vars:
+       user3: user3
+       user4: user4  

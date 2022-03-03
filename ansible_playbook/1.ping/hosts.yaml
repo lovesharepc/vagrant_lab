@@ -1,0 +1,12 @@
+---
+webservers:
+  hosts:
+    192.168.15.141:
+    192.168.15.142:
+testing:
+  hosts:
+    192.168.15.143:
+all:
+  vars:
+    ansible_user: root
+    ansible_ssh_pass: P@ssw0rd

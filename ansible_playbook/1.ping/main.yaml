@@ -1,0 +1,9 @@
+---
+- hosts: webservers
+  tasks:
+    - name: running ping
+      ping:
+- hosts: testing
+  tasks:
+    - name: running setup
+      setup:

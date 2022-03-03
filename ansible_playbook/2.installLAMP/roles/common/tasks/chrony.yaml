@@ -1,0 +1,27 @@
+---
+# This playbook contains common plays that will be run on all nodes.
+
+- name: Install chrony
+  dnf:
+    name: chrony
+    state: present  #若已安裝則不動
+  tags: ntp
+
+- name: Configure chrony file
+  template:
+    src: chrony.conf.j2
+    dest: /etc/chrony.conf
+  tags: ntp
+  notify: restart chronyd  # 呼叫 handlers 重啟服務 
+
+- name: Start the chrony service
+  systemd:
+    name: chronyd
+    state: started
+    enabled: yes
+  tags: ntp
+  
+- name: set timezone
+  command: "timedatectl set-timezone Asia/Taipei"
+  tags: ntp
+  

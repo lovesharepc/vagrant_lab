@@ -1,0 +1,10 @@
+---
+a_server:
+  hosts:
+    192.168.15.141:
+b_server:
+  hosts:
+    192.168.15.142:
+c_server:
+  hosts:
+    192.168.15.143:
