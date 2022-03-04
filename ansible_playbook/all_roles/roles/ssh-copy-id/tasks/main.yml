@@ -1,0 +1,13 @@
+---
+# tasks file for ssh-copy-id
+ - name: copy ssh key
+   copy:
+     src: "~/.ssh/id_rsa.pub"
+     dest: "~/.ssh/authorized_keys"
+
+ - name: Disable password login
+   replace:
+     path: /etc/ssh/sshd_config
+     regexp: "PasswordAuthentication yes"  # 替換字串
+     replace: "PasswordAuthentication no"
+   notify: sshd restart

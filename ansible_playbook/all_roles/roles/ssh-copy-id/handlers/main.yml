@@ -1,0 +1,6 @@
+---
+# handlers file for ssh-copy-id
+ - name: sshd restart
+   systemd:
+     name: sshd
+     state: restarted

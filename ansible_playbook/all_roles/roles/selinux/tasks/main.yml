@@ -1,0 +1,6 @@
+---
+# tasks file for selinux
+- name: change selinux config
+  ansible.posix.selinux:
+    policy: targeted
+    state: "{{ selinux_config }}"
