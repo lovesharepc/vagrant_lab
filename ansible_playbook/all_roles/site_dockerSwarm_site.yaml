@@ -1,0 +1,28 @@
+---
+#- name: apply common 、 ssh-copy-id configuration to all nodes
+#  hosts: all
+# # remote_user: root
+#  roles:
+#    - ssh-copy-id
+##    - common
+#
+#- name: apply selinux configuration to all nodes
+#  hosts: all
+# # remote_user: root
+#  roles:
+#    - selinux
+#  vars: 
+#    selinux_config: permissive
+#    ansible_python_interpreter: "/usr/libexec/platform-python" 
+#   
+#- name: install docker-ce
+#  hosts: all
+# # remote_user: root
+#  roles:
+#    - docker-ce
+
+
+- name: create swarm cluster
+  hosts: all
+  roles:
+    - docker-swarm

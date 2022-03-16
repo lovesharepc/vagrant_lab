@@ -9,3 +9,6 @@ ntp_server2: time1.google.com
 
 ansible_user: root
 ansible_ssh_pass: P@ssw0rd
+ansible_python_interpreter: "/usr/libexec/platform-python" 
+docker_swarm_advertise_addr: 192.168.15.141
+swarm_contents.swarm_facts.JoinTokens.Manager: "token"

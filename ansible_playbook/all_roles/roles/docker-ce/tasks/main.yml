@@ -1,0 +1,29 @@
+---
+# tasks file for docker-ce
+ - name: install docker repo
+   command:
+     cmd: "dnf config-manager --add-repo=https://download.docker.com/linux/centos/docker-ce.repo"
+
+
+ - name: install docker-ce
+   dnf:
+     name:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+     state: latest
+    
+ - name: docker-ce enable now
+   systemd:
+     name: docker
+     state: restarted
+     enabled: yes 
+ 
+ - name: test docker work good 
+   command:
+     cmd: "docker run hello-world"
+   register: docker_helloworld
+   
+ - name: test docker work good 
+   debug:
+     msg: "{{ docker_helloworld }}"
