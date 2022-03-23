@@ -1,0 +1,10 @@
+---
+ - name: create user3
+   user:
+     name: "{{ user3 }}"
+     state: present
+
+ - name: create user4
+   user:
+     name: "{{ user4 }}"
+     state: present

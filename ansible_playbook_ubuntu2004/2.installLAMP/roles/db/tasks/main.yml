@@ -1,0 +1,52 @@
+---
+# This playbook will install mysql and create db user and give permissions.
+
+- name: Install Mysql package
+  dnf:
+    name: "{{ item }}"
+    state: installed
+  with_items:
+   - mysql-server
+   - python3-mysql
+#   - libselinux-python
+#   - libsemanage-python
+
+- name: Configure SELinux to start mysql on any port
+  seboolean:
+    name: mysql_connect_any
+    state: true
+    persistent: yes
+  when: sestatus.rc != 0
+
+- name: Create Mysql configuration file
+  template:
+    src: my.cnf.j2
+    dest: /etc/my.cnf
+  notify:
+  - restart mysql
+
+- name: Start Mysql Service
+  systemd:
+    name: mysqld
+    state: started
+    enabled: yes
+
+- name: add firewalld rule for mysql
+  ansible.posix.firewalld:
+    service: mysql
+    permanent: yes
+    immediate: yes
+    state: enabled
+
+- name: Create Application Database
+  community.mysql.mysql_db:
+    name: "{{ dbname }}"
+    state: present
+
+- name: Create Application DB User
+  community.mysql.mysql_user:
+    name: "{{ dbuser }}"
+    password: "{{ upassword }}"
+    priv: "*.*:ALL"
+    host: '%'
+    state: present

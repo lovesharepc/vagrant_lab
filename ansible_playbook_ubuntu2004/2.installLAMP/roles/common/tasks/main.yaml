@@ -1,0 +1,11 @@
+---
+- name: update all package
+  import_tasks: updateOS.yaml
+
+- name: install chrony
+  import_tasks: chrony.yaml
+  
+- name: test to see if selinux is running
+  command: getenforce
+  register: sestatus   # 紀錄 SELinux 狀態
+  changed_when: false

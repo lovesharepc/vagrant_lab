@@ -1,0 +1,4 @@
+- name: "Provision Docker Swarm Cluster"
+  hosts: all
+  roles:
+    - { role: atosatto.docker-swarm }

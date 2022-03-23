@@ -1,0 +1,8 @@
+---
+
+- name: Install chrony
+  apt:
+    name: chrony
+    state: present  #若已安裝則不動
+  tags: ntp
+  

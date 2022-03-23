@@ -1,0 +1,14 @@
+---
+# Variables listed here are applicable to all host groups
+
+httpd_port: 80
+ntpserver: 192.168.1.2
+repository: https://github.com/bennojoy/mywebapp.git
+ntp_server1: time.google.com
+ntp_server2: time1.google.com
+
+ansible_user: owan
+ansible_ssh_pass: P@ssw0rd
+
+docker_swarm_advertise_addr: 192.168.15.141
+

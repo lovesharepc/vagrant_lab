@@ -1,0 +1,79 @@
+---
+#tasks file for docker-swarm
+
+#- name: config firewalld for docker swarm
+#  ansible.posix.firewalld:
+#    service : docker-swarm
+#    permanent: yes
+#    immediate: yes
+#    state: enabled
+
+#- name: remove ipv6
+#  community.general.nmcli:
+#    conn_name: System enp0s8
+#    method6: disabled
+#    state: present
+
+- name: install docker SDK
+  command:
+    cmd : "pip3 install docker"
+
+
+# init swarm cluster
+- name: create docker swarm cluster
+  when: inventory_hostname == "{{ groups['MGservers'][0] }}"
+  community.docker.docker_swarm:
+    state: present
+    advertise_addr: enp0s8   # server have multiple ip
+    listen_addr: enp0s8
+  register: swarm_contents
+  
+
+######################## get join info ##############################
+- name: Get token on Docker Swarm
+  delegate_to: "{{ groups['MGservers'][0] }}"
+  community.docker.docker_swarm_info:
+  ignore_errors: yes
+  register: Docker_result
+# manager {{ Docker_result.swarm_facts.JoinTokens.Manager }}
+# worker  {{ Docker_result.swarm_facts.JoinTokens.Worker }}
+
+- name: Get ip on Docker Swarm
+  delegate_to: "{{ groups['MGservers'][0] }}"
+  setup:
+  register: mgnode0_ansible_facts
+# {{ mgnode0_ansible_facts.ansible_facts.ansible_all_ipv4_addresses[1] }}
+
+
+
+
+
+
+####################### join swarm cluster ########################
+- name: manager node join swarm cluster
+  when: (inventory_hostname != "{{ groups['MGservers'][0] }}") and ('MGservers' in group_names)
+  community.docker.docker_swarm:
+    state: join
+    advertise_addr: enp0s8   # server have multiple ip
+    listen_addr: enp0s8
+    join_token: "{{ Docker_result.swarm_facts.JoinTokens.Manager }}"
+    remote_addrs: "{{ docker_swarm_advertise_addr }}"
+
+- name: worker node join swarm cluster
+  when: ('WKservers' in group_names)
+  community.docker.docker_swarm:
+    state: join
+    advertise_addr: enp0s8   # server have multiple ip
+    listen_addr: enp0s8
+    join_token: "{{ Docker_result.swarm_facts.JoinTokens.Worker }}"
+    remote_addrs: "{{ docker_swarm_advertise_addr }}"
+
+
+
+- name: JoinTokens
+  debug:
+    msg: "{{ Docker_result.swarm_facts.JoinTokens.Worker }}"
+
+- name: ipv4_addresses
+  debug:
+    msg: "{{ docker_swarm_advertise_addr }}"

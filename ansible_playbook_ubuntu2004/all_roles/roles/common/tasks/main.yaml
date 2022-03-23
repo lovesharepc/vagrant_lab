@@ -1,0 +1,8 @@
+---
+- name: update all package
+  import_tasks: updateOS.yaml
+
+- name: install chrony
+  import_tasks: chrony.yaml
+  
+

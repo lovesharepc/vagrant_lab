@@ -1,0 +1,19 @@
+---
+- name: apply common 、 ssh-copy-id configuration to all nodes
+  hosts: all
+ # remote_user: root
+  roles:
+    - ssh-copy-id
+#    - common
+
+- name: install docker-ce
+  hosts: all
+ # remote_user: root
+  roles:
+    - docker-ce
+
+
+- name: create swarm cluster
+  hosts: all
+  roles:
+    - docker-swarm
