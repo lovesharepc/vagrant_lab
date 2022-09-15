@@ -1,2 +1,4 @@
 
 *.box
+ubuntu2004/*.box
+ubuntu2004/.vagrant

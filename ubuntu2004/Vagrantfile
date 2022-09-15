@@ -6,8 +6,8 @@ Vagrant.configure("2") do |config|
 # box 來源
   config.vm.box = "ubuntu.box"
 # box 驗證方式
-  config.ssh.username = "owan"
-  config.ssh.password = "P@ssw0rd"  
+  config.ssh.username = "ubuntu"
+  config.ssh.password = "94i087ya"  
 
 # 設定 VM 資源及使用 link clone 節省 host 空間  
   config.vm.provider "virtualbox" do |v|
@@ -17,20 +17,21 @@ Vagrant.configure("2") do |config|
   end
 
 # 使用迴圈建立大量 VM
-	(1..1).each do |i|
+       (1..2).each do |i|
 		# Defining VM properties
 		config.vm.define "lab_vm#{i}" do |node|
 			node.vm.hostname = "node#{i}.local"
-			node.vm.network "public_network", ip: "192.168.15.#{140+i}"
+			#node.vm.network "public_network",bridge: "wlp0s20f3", ip: "192.168.100.#{151+i}"
+                        node.vm.network "public_network",bridge: "enp2s0", ip: "192.168.100.#{151+i}"
 		    end
 		
        config.vm.provision "shell",
        run: "always",
        inline: "sudo ip route del default"
 		
-		config.vm.provision "shell",
+       config.vm.provision "shell",
        run: "always",
-       inline: "sudo ip route add default via 192.168.15.1 "
+       inline: "sudo ip route add default via 192.168.100.1 "
 		
 		end
 
